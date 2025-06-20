@@ -5,10 +5,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.datetime
 
 fun main(args: Array<String>) {
-
-
 }
-
 
 object MenuItemTable : LongIdTable("menu_item") {
     val name = text("name")
