@@ -27,18 +27,14 @@ private val logger = KotlinLogging.logger {}
 const val API_PATH = "/api"
 
 fun main() {
-    // Create a simple embedded server with configuration from application.yaml
     val applicationConfig = io.ktor.server.config.ApplicationConfig("application.yaml")
     val ktorConfig = applicationConfig.config("ktor.deployment")
     val port = ktorConfig.property("port").getString().toInt()
     val host = ktorConfig.propertyOrNull("host")?.getString() ?: "0.0.0.0"
 
     embeddedServer(Netty, port = port, host = host) {
-        // Get the environment configuration
-
         logger.info { "Starting application with configuration" }
 
-        // Configure the database
         configureDatabases()
 
         val menuRepository = MenuRepositoryImpl()
@@ -64,10 +60,8 @@ fun main() {
 
         routing {
             loginRoutes(authenticationService, API_PATH)
-
             authenticate(AUTH_JWT) {
                 menuRoutes(menuService, API_PATH)
-                // add order routes
             }
         }
     }.start(wait = true)
